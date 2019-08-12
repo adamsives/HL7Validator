@@ -8,7 +8,7 @@ namespace WindowsFormsApp2
 {
     class ValidatedPID
     {
-        string[] segmentFields = specificSegment.Split('|');
+        /*string[] segmentFields = specificSegment.Split('|');
         //TODO-------handle ~ multiple field instances
         string[] IDFields = segmentFields[3].Split('^');
 
@@ -28,6 +28,6 @@ namespace WindowsFormsApp2
                                 catch (Exception ex)
                                 {
                                     MessageBox.Show("no PID-3.4");
-                                }
+                                }*/
     }
 }
