@@ -17,50 +17,67 @@ namespace WindowsFormsApp2
             InitializeComponent();
         }
 
+
         private void button1_Click(object sender, EventArgs e)
         {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.InitialDirectory = "c:\\";
+            //openFileDialog1.Filter = "Excel Files| *.xls; *.xlsx";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
 
-            AllCDMCodes allCDMCodes = new AllCDMCodes();
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            { 
+                AllCDMCodes allCDMCodes = new AllCDMCodes();
+                txtCDMCodeFile.Text = openFileDialog1.FileName;//todo: redact text with elipsis
+            }
+        }
 
-            //            List<CDMCode> allCodes = allCDMCodes.CodelistToBeMapped();
-            /*
-            List<CDMCode> allCodes = allCDMCodes.AllCodesToBeMapped();
+        private void Button4_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.InitialDirectory = "c:\\";
+            //openFileDialog1.Filter = "Excel Files| *.xls; *.xlsx";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
 
-
-            foreach (CDMCode codeAndField in allCodes)
+            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                try
-                {
-                    //-----------debug
-                    MessageBox.Show(codeAndField.Segment, "Segment");
-                    MessageBox.Show(codeAndField.Field, "Field");
-                    MessageBox.Show(codeAndField.Component, "Component");
-                    MessageBox.Show(codeAndField.TextDescription, "Text Description");
-                }
-                catch (Exception)
-                {
 
-                    throw;
-                }
-                
-            };*/
+                txtHL7MessageFile.Text = openFileDialog1.FileName;//todo: redact text with elipsis
 
-            List<string> allCodesandFields = allCDMCodes.FieldsAndSegmentsToBeMapped();
+            }
+        }
 
-            foreach (string codeAndField in allCodesandFields)
+        private void Form2_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BtnValidate_Click(object sender, EventArgs e)
+        {
+            //if txtCDM and txtHL7Codes contain valid files
+            //start mapping!
+            string cdmFilename = txtCDMCodeFile.Text;
+            string HL7FileName = txtHL7MessageFile.Text;
+            HL7Messages messageSample = new HL7Messages();
+            string[] hl7messages = messageSample.messages(HL7FileName);
+
+            foreach (string message in hl7messages)
             {
-                try
-                {
-                    //-----------debug
-                    MessageBox.Show(codeAndField, "CodeAndFIeld");
-                }
-                catch (Exception)
-                {
+                MessageBox.Show(message.ToString().Trim());
+                string[] segments = message.Split('\n');
 
-                    throw;
+                foreach(string segment in segments)
+                {
+                    //gererate HL7Validator.validate(segment,segment.Substring(0, 3),cdmFilename,HL7FileName)
                 }
-
-            };
+            }
         }
     }
 }

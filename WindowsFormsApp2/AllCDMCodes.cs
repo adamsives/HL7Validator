@@ -11,32 +11,123 @@ namespace WindowsFormsApp2
 {
     class AllCDMCodes : System.Collections.IEnumerable
     {
-        public List<CDMCode> CDMCodes = new List<CDMCode>();
-        private static string fileLocation = "C:\\Program Files (x86)\\HL7Spy 2.x\\Data\\NSWHEALTH_CMM\\ADT_CDMCodes.txt";//---todo: make this .xlsx format
-        private string[] CDMCodeLines = File.ReadLines(fileLocation).ToArray();
-        public List<string> FieldsAndSegments = new List<string>();
+        //private static HL7Messages messageSample = new HL7Messages();
+        private static AllCDMCodes allCDMCodes = new AllCDMCodes();
+        private List<CDMCode> CDMCodes = new List<CDMCode>();//initialise list of CDM codes
+        //public List<string> Segments = new List<string>();
+        //public List<string> FieldsAndSegments = new List<string>();
 
         public AllCDMCodes()
         {
-
+            //string[] CDMCodeLines = File.ReadLines(fileName).ToArray();
         }
 
-        public List<CDMCode> AllCodesToBeMapped()
+        public List<string> SegmentsInCDM(string fileName)
         {
-            foreach (string CDMCodeLine in CDMCodeLines)
+            List<string> segments = new List<string>();
+
+            string [] cdmCodes = File.ReadAllLines(fileName);
+
+            foreach (string line in cdmCodes)
+            {
+                string[] tuple = line.Split('\t').ToArray();
+
+                if (!segments.Contains(tuple[0]))
+                    {
+                    segments.Add(tuple[0]);
+                    }
+            }
+            return segments;
+        }
+
+        public List<CDMCode> AllCodesToBeMapped(string fileName)//--this returns all codes
+        {
+            List<CDMCode> CDMCodes = new List<CDMCode>();
+
+            string[] cdmCodes = File.ReadAllLines(fileName);
+
+            foreach (string code in cdmCodes)
             {
                 CDMCode currentCDMCode = new CDMCode();
-                string[] CDMCodeLineArray = CDMCodeLine.Split('\t').ToArray();
+                string[] CDMCodeLineArray = code.Split('\t').ToArray();
                 currentCDMCode.Segment = CDMCodeLineArray[0];
                 currentCDMCode.Field = CDMCodeLineArray[1];
                 currentCDMCode.Component = CDMCodeLineArray[2];
-                currentCDMCode.TextDescription = CDMCodeLineArray[3];
+                currentCDMCode.CodeValue = CDMCodeLineArray[3];
+                currentCDMCode.TextDescription = CDMCodeLineArray[4];
                 CDMCodes.Add(currentCDMCode);
             }
             return CDMCodes;
         }
 
-        public List<string> FieldsAndSegmentsToBeMapped()
+        public List<CDMCode> AllCodesToBeMapped(string fileName, string segmentType)
+        {
+            List<CDMCode> CDMCodes = new List<CDMCode>();
+
+            string[] cdmCodes = File.ReadAllLines(fileName);
+
+            foreach (string code in cdmCodes)
+            {
+                CDMCode currentCDMCode = new CDMCode();
+                string[] CDMCodeLineArray = code.Split('\t').ToArray();
+                //------------
+                if(segmentType == CDMCodeLineArray[0]) { 
+                    currentCDMCode.Segment = CDMCodeLineArray[0];
+                    currentCDMCode.Field = CDMCodeLineArray[1];
+                    currentCDMCode.Component = CDMCodeLineArray[2];
+                    currentCDMCode.CodeValue = CDMCodeLineArray[3];
+                    currentCDMCode.TextDescription = CDMCodeLineArray[4];
+                    CDMCodes.Add(currentCDMCode);
+                }
+                //------------
+            }
+            return CDMCodes;
+        }
+
+        public List<CDMCode> AllCodesToBeMapped(string fileName, string segmentType, int field)
+        {
+            List<CDMCode> CDMCodes = new List<CDMCode>();
+
+            string[] cdmCodes = File.ReadAllLines(fileName);
+
+            foreach (string code in cdmCodes)
+            {
+                CDMCode currentCDMCode = new CDMCode();
+                string[] CDMCodeLineArray = code.Split('\t').ToArray();
+
+                if (segmentType == CDMCodeLineArray[0] && field.ToString() == CDMCodeLineArray[1])
+                {
+                    currentCDMCode.Segment = CDMCodeLineArray[0];
+                    currentCDMCode.Field = CDMCodeLineArray[1];
+                    currentCDMCode.Component = CDMCodeLineArray[2];
+                    currentCDMCode.CodeValue = CDMCodeLineArray[3];
+                    currentCDMCode.TextDescription = CDMCodeLineArray[4];
+                    CDMCodes.Add(currentCDMCode);
+                }
+            }
+            return CDMCodes;
+        }
+
+        public List<string> AllCodesToBeMapped(string fileName, string segmentType, int field, int component)
+        {
+            List<string> CDMCodes = new List<string>();
+
+            string[] cdmCodes = File.ReadAllLines(fileName);
+
+            foreach (string code in cdmCodes)
+            {
+                CDMCode currentCDMCode = new CDMCode();
+                string[] CDMCodeLineArray = code.Split('\t').ToArray();
+
+                if (segmentType == CDMCodeLineArray[0] && field.ToString() == CDMCodeLineArray[1] && component.ToString() == CDMCodeLineArray[2])
+                {
+                    CDMCodes.Add(CDMCodeLineArray[3].ToString());
+                }
+            }
+            return CDMCodes;
+        }
+
+        /*public List<string> FieldsAndSegmentsToBeMapped(string fileName)
         {
             foreach (string CDMCodeLine in CDMCodeLines)
             {
@@ -49,7 +140,7 @@ namespace WindowsFormsApp2
                 }
             }
             return FieldsAndSegments;
-        }
+        }*/
 
         public IEnumerator GetEnumerator()
         {

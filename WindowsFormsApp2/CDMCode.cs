@@ -11,6 +11,7 @@ namespace WindowsFormsApp2
         public string Segment;
         public string Field;
         public string Component;
+        public string CodeValue;
         public string TextDescription;
     }
 }
