@@ -70,14 +70,32 @@ namespace WindowsFormsApp2
 
             foreach (string message in hl7messages)
             {
-                MessageBox.Show(message.ToString().Trim());
-                string[] segments = message.Split('\n');
+                //MessageBox.Show(message.ToString().Trim());//----------debug
+                string[] segments = message.Split('\r');
 
-                foreach(string segment in segments)
+                try
                 {
-                    //gererate HL7Validator.validate(segment,segment.Substring(0, 3),cdmFilename,HL7FileName)
+                    foreach (string segment in segments)
+                    {
+                        string segmentType = segment.ToString().Substring(0, 3);
+                        //gererate HL7Validator.validate(segment,segment.Substring(0, 3),cdmFilename,HL7FileName)
+                        //todo: construct message header to include in report
+                        //todo: supply names and ID as well for human readability of the report
+                        HL7Validator v = new HL7Validator();//todo:pass a HL7 message
+                        v.Validate(segment, segmentType, cdmFilename);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine("there has been an exception in Form2.cs:" + ex.Message);
                 }
             }
+        }
+
+        private void Cancel_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

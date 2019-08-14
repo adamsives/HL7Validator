@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace WindowsFormsApp2
 {
@@ -10,29 +8,36 @@ namespace WindowsFormsApp2
     {
 
         private static AllCDMCodes allCDMCodes = new AllCDMCodes();
+        public List<string> validationReport = new List<string>();//this will create a list of strings that report illegal values in the HL7 message
 
-
-        public List<string> validate(string segment, string segmentType, string cdmFilename, string HL7FileName)
+        public List<string> Validate(string segment, string segmentType, string cdmFilename)
         {
-            List<string> validationReport = new List<string>();
-            List<string> cdmSegments = allCDMCodes.SegmentsInCDM(cdmFilename);
-            List<CDMCode> codes = allCDMCodes.AllCodesToBeMapped(cdmFilename, segmentType);
-            
-            foreach (CDMCode code in codes)
+            List<CDMCode> codes = allCDMCodes.AllCodesToBeMapped(cdmFilename, segmentType);//CDM codes to be mapped for this segment
+
+            try
             {
-                string[] fields = segment.Split('|');
-
-                if (code.Segment == segmentType)
+                foreach (CDMCode code in codes)
                 {
-                    if (fields[Int32.Parse(code.Field)-1] == code.Field & fields[Int32.Parse(code.Component)-1] == code.Component)//fields[Int32.Parse(code.Component)])
-                    {
+                    string[] fields = segment.Split('|');
+                    string segmentField = fields[int.Parse(code.Field)];//----------this try catch is mainly for this being out of bounds.
+                    string segmentComponent = fields[Int32.Parse(code.Component)];//this try catch is mainly for this being out of bounds.
 
-                        if (code.CodeValue == fields[Int32.Parse(code.Field) - 1])//todo: validate entire range of possible code values for that component
+                    if (code.Segment == segmentType)
+                    {
+                        if (segmentField == code.Field & segmentComponent == code.Component)
                         {
-                            //happy path
+                            Console.WriteLine("segmentField == cdmCodeField & segmentComponent == codeComponent");
+                            if (code.CodeValue == fields[Int32.Parse(code.Field) - 1])//todo: validate entire range of possible code values for that component
+                            {
+                                //happy path
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("there has been an exception:"+e.Message);
             }
 
             return validationReport;
