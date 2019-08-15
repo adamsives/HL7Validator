@@ -21,7 +21,7 @@ namespace WindowsFormsApp2
         {
             List<string> HL7Messages = new List<string>();
             string HL7MessageBlob = File.ReadAllText(fileName);
-            string[] untrimmedHL7Messages = HL7MessageBlob.Split((char)28);
+            string[] untrimmedHL7Messages = HL7MessageBlob.Split((char)28);//28 = FS File Separator
 
             foreach(string message in untrimmedHL7Messages)
             {

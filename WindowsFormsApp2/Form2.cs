@@ -71,7 +71,12 @@ namespace WindowsFormsApp2
             foreach (string message in hl7messages)
             {
                 //MessageBox.Show(message.ToString().Trim());//----------debug
-                string[] segments = message.Split('\r');
+
+
+                HL7Message m = new HL7Message();
+                m.CreateMessage(message);
+                HL7Validator v = new HL7Validator();
+                v.Validate(message);
 
                 try
                 {

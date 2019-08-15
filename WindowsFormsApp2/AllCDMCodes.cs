@@ -11,11 +11,8 @@ namespace WindowsFormsApp2
 {
     class AllCDMCodes : System.Collections.IEnumerable
     {
-        //private static HL7Messages messageSample = new HL7Messages();
         private static AllCDMCodes allCDMCodes = new AllCDMCodes();
-        private List<CDMCode> CDMCodes = new List<CDMCode>();//initialise list of CDM codes
-        //public List<string> Segments = new List<string>();
-        //public List<string> FieldsAndSegments = new List<string>();
+        private List<CDMCode> CDMCodes = new List<CDMCode>();
 
         public AllCDMCodes()
         {

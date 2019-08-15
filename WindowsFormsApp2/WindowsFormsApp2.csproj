@@ -53,7 +53,7 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
-    <Compile Include="SingleHL7Message.cs" />
+    <Compile Include="HL7Message.cs" />
     <Compile Include="HL7Messages.cs" />
     <Compile Include="HL7Validator.cs" />
     <Compile Include="Program.cs" />
@@ -82,6 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DesignDoc\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

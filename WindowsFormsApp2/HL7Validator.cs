@@ -10,15 +10,15 @@ namespace WindowsFormsApp2
         private static AllCDMCodes allCDMCodes = new AllCDMCodes();
         public List<string> validationReport = new List<string>();//this will create a list of strings that report illegal values in the HL7 message
 
-        public List<string> Validate(string segment, string segmentType, string cdmFilename)
+        public List<string> Validate(SingleHL7Message shl7m, string cdmFilename)
         {
-            List<CDMCode> codes = allCDMCodes.AllCodesToBeMapped(cdmFilename, segmentType);//CDM codes to be mapped for this segment
+            List<CDMCode> codes = allCDMCodes.AllCodesToBeMapped(cdmFilename);//CDM codes to be mapped for this segment
 
             try
             {
                 foreach (CDMCode code in codes)
                 {
-                    string[] fields = segment.Split('|');
+
                     string segmentField = fields[int.Parse(code.Field)];//----------this try catch is mainly for this being out of bounds.
                     string segmentComponent = fields[Int32.Parse(code.Component)];//this try catch is mainly for this being out of bounds.
 
