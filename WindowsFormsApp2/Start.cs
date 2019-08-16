@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp2
 {
-    public partial class Form2 : Form
+    public partial class Start : Form
     {
-        public Form2()
+        public Start()
         {
             InitializeComponent();
         }
@@ -41,11 +41,11 @@ namespace WindowsFormsApp2
             openFileDialog1.FilterIndex = 2;
             openFileDialog1.RestoreDirectory = true;
 
+            HL7Message h = new HL7Message();
+
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-
                 txtHL7MessageFile.Text = openFileDialog1.FileName;//todo: redact text with elipsis
-
             }
         }
 
@@ -62,22 +62,16 @@ namespace WindowsFormsApp2
         private void BtnValidate_Click(object sender, EventArgs e)
         {
             //if txtCDM and txtHL7Codes contain valid files
-            //start mapping!
+            //start validating!
             string cdmFilename = txtCDMCodeFile.Text;
             string HL7FileName = txtHL7MessageFile.Text;
-            HL7Messages messageSample = new HL7Messages();
-            string[] hl7messages = messageSample.messages(HL7FileName);
+            HL7MessageSample messageSample = new HL7MessageSample(HL7FileName);
+            string[] messages = messageSample.ParsedSample;
 
+
+            #region Call the validation processes here
             foreach (string message in hl7messages)
             {
-                //MessageBox.Show(message.ToString().Trim());//----------debug
-
-
-                HL7Message m = new HL7Message();
-                m.CreateMessage(message);
-                HL7Validator v = new HL7Validator();
-                v.Validate(message);
-
                 try
                 {
                     foreach (string segment in segments)
@@ -95,7 +89,8 @@ namespace WindowsFormsApp2
 
                     Console.WriteLine("there has been an exception in Form2.cs:" + ex.Message);
                 }
-            }
+            } 
+            #endregion
         }
 
         private void Cancel_Click(object sender, EventArgs e)
