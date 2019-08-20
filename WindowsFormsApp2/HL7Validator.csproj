@@ -47,6 +47,13 @@
   <ItemGroup>
     <Compile Include="AllCDMCodes.cs" />
     <Compile Include="CDMCode.cs" />
+    <Compile Include="Field.cs" />
+    <Compile Include="HL7Field.cs" />
+    <Compile Include="HL7Fields.cs" />
+    <Compile Include="HL7Segment.cs" />
+    <Compile Include="HL7SubField.cs" />
+    <Compile Include="HL7SubSubField.cs" />
+    <Compile Include="Segment.cs" />
     <Compile Include="Start.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +65,8 @@
     <Compile Include="HL7Validator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Subfield.cs" />
+    <Compile Include="SubSubField.cs" />
     <EmbeddedResource Include="Start.resx">
       <DependentUpon>Start.cs</DependentUpon>
     </EmbeddedResource>

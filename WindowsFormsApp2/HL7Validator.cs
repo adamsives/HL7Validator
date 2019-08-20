@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace WindowsFormsApp2
 {
@@ -13,6 +14,9 @@ namespace WindowsFormsApp2
         public List<string> Validate(SingleHL7Message shl7m, string cdmFilename)
         {
             List<CDMCode> codes = allCDMCodes.AllCodesToBeMapped(cdmFilename);//CDM codes to be mapped for this segment
+
+            HL7Message wah = new HL7Message("xXx");//---------------------------------debug
+            SubSubfield boo = wah.Segments[0].Fields[0].Subfields[0].SubSubfields[0];
 
             try
             {

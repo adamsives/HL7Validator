@@ -8,101 +8,113 @@ namespace WindowsFormsApp2
 {
     public class HL7Message
     {
-        public List<string> SegmentsList;//e.g. MSH, MRG
-        public List<string[]> Segments;//e.g. MSH, MRG
-        public List<string[]> Fields;//e.g. MSH 4
-        public List<string> SubFields;//e.g. MSH 4.3
-        public string[] SubSubFields;//e.g MSH 4.3&3
-        public int [] RepetitionIndices;//e.g. MSH 4.3 first instance, MSH 4.3 n instance, MSH 4.3 n+1 instance
-        public string FieldValue;//e.e PID 3.4 = "X550"
+        public int HL7MessageId { get; set; }
+        public string HL7MessageName { get; set; }
 
-        public string[][] MSH;
-        public string[][] EVN;
-        public string[][] PID;
-        public string[][] PD1;
-        public string[][] ROL;
-        public string[][] PV1;
-        public string[][] PV2;
-        public string[][] ZPV;
-        public string[][] ZRL;
-
-
+        public Segment Segments { get; set; }
+        public Field Fields { get; set; }
+        public Subfield Subfields { get; set; }
+        public SubSubfield SubSubfields { get; set; }
 
         // Public constructor.
-        public HL7Message(string hl7Sample)
+        public HL7Message(string msgTxt) {
+            Segment segs = new Segment(msgTxt);
+            Segments = segs;
+
+            Field field = new Field(segs);
+            Fields = field;
+
+            Subfield subfield = new Subfield(field);
+            Subfields = subfield;
+
+            SubSubfield subSubfield = new SubSubfield(subfield);
+            SubSubfields = subSubfield;
+        }
+    }
+}
+/*
+        public HL7Message(string hl7Sample, string semgentName, string fieldName)
         {
-            //--------------------------list of segments 
-            string[] messageStrings = hl7Sample.Split('\r');
+            HL7Field f = new Hl7Field(hl7Sample, semgentName, fieldName);
+            Field = f.ToString();
 
-            #region Segment List
-            //--------------------------list of segment names
-            List<string> segmentsList = new List<string>();
-            int i = 0;
-            foreach (string ms in segmentsList)
-            {
-                segmentsList.Add(ms[i].ToString().Substring(0, 3));
-                i++;
-            }
-            i = 0;
-
-            SegmentsList = segmentsList; 
-            #endregion
-
-            //--------------------------fields for each segment
-            foreach (string ms in messageStrings) {
-
-                string segmentName = ms.Substring(0, 3);
-
-                    switch (segmentName)
-                    {
-                    case "MSH":
-                        MSH = ParseSegment(ms);
-                            break;
-                    case "EVN":
-                        EVN = ParseSegment(ms);
-                        break;
-                    case "PID":
-                        PID = ParseSegment(ms);
-                        break;
-                    case "PD1":
-                        PD1 = ParseSegment(ms);
-                        break;
-                    case "ROL":
-                        ROL = ParseSegment(ms);
-                        break;
-                    case "PV1":
-                        PV1 = ParseSegment(ms);
-                        break;
-                    case "PV2":
-                        PV1 = ParseSegment(ms);
-                        break;
-                    default:
-                        Console.WriteLine("Out of scope message segment detected:"+ ParseSegment(ms));
-                    break;
-                    }
-
-                }
-            //---todo: add fields to this segment
         }
 
-        private string [] [] ParseSegment(string ms)
+        private List<string> ParseSegment(string ms)
         {
-            int i = 0;
             string[] segmentFields = ms.Split('|');//fields for this segment
-            List<string> subFields = new List<string>();
             int arrayLength = segmentFields.Length;
-            string[,] fieldAndIndex = new string[arrayLength,1];
+            List<List<string>> fieldAndIndex = new List<List<string>>();
 
             foreach (string field in segmentFields)
             {
-                fieldAndIndex
+
+                //handle ~
+                if (field.Contains('~'))
+                {
+                    List<string> fieldRepeat = ParseFieldRepeat(field);
+                    fieldAndIndex.Add(fieldRepeat);
+                }
+                else
+                {
+                    List<string> fieldsInSubfields = new List<string>();
+                    fieldsInSubfields.Add(field);
+                    fieldAndIndex.Add(fieldsInSubfields);
+                }
+
+                //handle ^
+                if (field.Contains('^'))
+                {
+                    List<string> fieldsInSubfields = ParseField(field);
+                    fieldAndIndex.Add(fieldsInSubfields);
+                }
+                else
+                {
+                    List<string> fieldsInSubfields = new List<string>();
+                    fieldsInSubfields.Add(field);
+                    fieldAndIndex.Add(fieldsInSubfields);
+                }
+
+
+                //handle &
+                //handle \
             }
-            throw new NotImplementedException();
+
+        }
+
+        private List<string> ParseFieldRepeat(string field)
+        {
+            string[]repeatedFieldsBlob = field.Split('~');//repeated fields for this field
+            List<string> repeatedFields = new List<string>();
+
+            foreach (string repeat in repeatedFieldsBlob)
+            {
+                repeatedFields.Add(repeat);
+            }
+
+            repeatedFields.Insert(0, "N/A");
+
+            return repeatedFields;
+        }
+
+        private List<string> ParseField(string field)
+        {
+            string[] subFieldsBlob = field.Split('^');//subields for this field
+            List<string> subfields = new List<string>();
+
+            foreach (string subField in subFieldsBlob)
+            {
+                subfields.Add(subField);
+            }
+
+            subfields.Insert(0, "N/A");
+
+            return subfields;
         }
 
         private string[] SplitSubfields(string s)
         {
-            //handle subfields
+            //handle field repeats
             int i = 0;
             string[] subFields = s.Split('~');
             return subFields;
@@ -120,6 +132,6 @@ namespace WindowsFormsApp2
 
             return subSubFields.ToArray();
         }
-    
+    8?
     }
 }

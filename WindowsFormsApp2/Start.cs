@@ -70,11 +70,13 @@ namespace WindowsFormsApp2
 
 
             #region Call the validation processes here
-            foreach (string message in hl7messages)
+            foreach (string message in messages)
             {
+                HL7Message hl7msg = new HL7Message(message);
+
                 try
                 {
-                    foreach (string segment in segments)
+                    foreach (string segment in message)
                     {
                         string segmentType = segment.ToString().Substring(0, 3);
                         //gererate HL7Validator.validate(segment,segment.Substring(0, 3),cdmFilename,HL7FileName)

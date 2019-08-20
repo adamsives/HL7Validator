@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsFormsApp2", "WindowsFormsApp2\WindowsFormsApp2.csproj", "{E6B8471E-D80D-4E58-A6E6-545CEB99767A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HL7Validator", "WindowsFormsApp2\HL7Validator.csproj", "{E6B8471E-D80D-4E58-A6E6-545CEB99767A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
