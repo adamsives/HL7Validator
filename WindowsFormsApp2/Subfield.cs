@@ -13,7 +13,7 @@ namespace WindowsFormsApp2
         public Field Field { get; set; }
         public List<string> SubFields { get; set; }
         public int SubfieldFinger { get; set; }
-        public List<SubSubfield> SubSubfields { get; set; }
+        public List<string> SubSubfields { get; set; }
 
         public Subfield(Field sf)
         {

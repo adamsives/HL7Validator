@@ -1,13 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace WindowsFormsApp2
 {
-    internal class HL7SubField : IEnumerable
+    internal class zzzzzHL7SubSubField : IEnumerator
     {
         public List<string> Field = new List<string>();
 
-        public HL7SubField(HL7Field s)
+        public zzzzzHL7SubSubField(zzzzzHL7SubField s)
         {
             foreach (string r in s)
             {
@@ -16,11 +20,6 @@ namespace WindowsFormsApp2
         }
 
         public object Current => throw new System.NotImplementedException();
-
-        public IEnumerator GetEnumerator()
-        {
-            throw new System.NotImplementedException();
-        }
 
         public bool MoveNext()
         {

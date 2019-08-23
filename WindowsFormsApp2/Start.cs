@@ -41,7 +41,14 @@ namespace WindowsFormsApp2
             openFileDialog1.FilterIndex = 2;
             openFileDialog1.RestoreDirectory = true;
 
-            HL7Message h = new HL7Message();
+            string x = "debug";
+            HL7Message h = new HL7Message(x);//---------------------------------------------debug
+
+            string wah = h.Segments[0].Fields[0].Subfields[0].SubSubfields[0].ToString();
+            string boo = h.Segments[0].Fields[0].Subfields[0].ToString();
+            string res = h.Segments[0].Fields[0].ToString();
+            string bla = h.Segments[0].ToString();
+            string pez = h.Segments[0].
 
             if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -66,8 +73,7 @@ namespace WindowsFormsApp2
             string cdmFilename = txtCDMCodeFile.Text;
             string HL7FileName = txtHL7MessageFile.Text;
             HL7MessageSample messageSample = new HL7MessageSample(HL7FileName);
-            string[] messages = messageSample.ParsedSample;
-
+            string[] messages = messageSample.ParsedSample;//-------------------all messages in that  sample.hl7 file
 
             #region Call the validation processes here
             foreach (string message in messages)
@@ -76,7 +82,7 @@ namespace WindowsFormsApp2
 
                 try
                 {
-                    foreach (string segment in message)
+                    /*foreach (string segment in message)
                     {
                         string segmentType = segment.ToString().Substring(0, 3);
                         //gererate HL7Validator.validate(segment,segment.Substring(0, 3),cdmFilename,HL7FileName)
@@ -84,7 +90,7 @@ namespace WindowsFormsApp2
                         //todo: supply names and ID as well for human readability of the report
                         HL7Validator v = new HL7Validator();//todo:pass a HL7 message
                         v.Validate(segment, segmentType, cdmFilename);
-                    }
+                    }*/
                 }
                 catch (Exception ex)
                 {

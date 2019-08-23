@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp2
 {
-    class HL7Segment : IEnumerable
+    class zzzzzHL7Segment : IEnumerable
     {
         private string[] MessageStrings;
         public List<string> Segment;
         public List<string> Fields;
 
-        public HL7Segment(string hl7Sample)
+        public zzzzzHL7Segment(string hl7Sample)
         {
             //--------------------------list of segments 
             MessageStrings = hl7Sample.Split('\r');

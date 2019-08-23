@@ -9,23 +9,26 @@ namespace WindowsFormsApp2
 {
     public class Segment : IEnumerable
     {
-        public int SegmentId { get; set; }
-        public string SegmentName { get; set; }
         public List<string> Segments { get; set; }
         public List<Field> Fields { get; set; }
 
-        private string[] MessageStrings;
+        private string[] SegmentStrings;
 
         public Segment(string hl7Sample)
         {
             //--------------------------list of segments 
-            MessageStrings = hl7Sample.Split('\r');
+            SegmentStrings = hl7Sample.Split('\r');
 
-            foreach (string ms in MessageStrings)
+            Field segs = new Field(ms);
+
+            foreach (string ms in SegmentStrings)
             {
                 //Add content of each field of segment to the Field.description
                 Segments.Add(ms);
             }
+
+
+            Fields = segs.Fields;
 
         }
 

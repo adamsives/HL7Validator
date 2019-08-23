@@ -19,6 +19,7 @@ namespace WindowsFormsApp2
             foreach (string f in s) {
                 Fields.Add(f);
             }
+
         }
 
         public IEnumerator GetEnumerator()

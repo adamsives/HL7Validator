@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace WindowsFormsApp2
 {
-    internal class HL7Field : IEnumerator
+    internal class zzzzzHL7Field : IEnumerator
     {
         public List<string> Field = new List<string>();
 
-        public HL7Field(HL7Fields s)
+        public zzzzzHL7Field(zzzzzHL7Fields s)
         {
             foreach (string r in s)
             {

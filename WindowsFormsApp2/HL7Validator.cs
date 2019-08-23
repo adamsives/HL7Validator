@@ -11,21 +11,17 @@ namespace WindowsFormsApp2
         private static AllCDMCodes allCDMCodes = new AllCDMCodes();
         public List<string> validationReport = new List<string>();//this will create a list of strings that report illegal values in the HL7 message
 
-        public List<string> Validate(SingleHL7Message shl7m, string cdmFilename)
+        public List<string> Validate(HL7Message shl7m, string cdmFilename)
         {
             List<CDMCode> codes = allCDMCodes.AllCodesToBeMapped(cdmFilename);//CDM codes to be mapped for this segment
-
-            HL7Message wah = new HL7Message("xXx");//---------------------------------debug
-            SubSubfield boo = wah.Segments[0].Fields[0].Subfields[0].SubSubfields[0];
-
             try
             {
                 foreach (CDMCode code in codes)
                 {
 
-                    string segmentField = fields[int.Parse(code.Field)];//----------this try catch is mainly for this being out of bounds.
+                    /*string segmentField = fields[int.Parse(code.Field)];//----------this try catch is mainly for this being out of bounds.
                     string segmentComponent = fields[Int32.Parse(code.Component)];//this try catch is mainly for this being out of bounds.
-
+                    
                     if (code.Segment == segmentType)
                     {
                         if (segmentField == code.Field & segmentComponent == code.Component)
@@ -36,7 +32,8 @@ namespace WindowsFormsApp2
                                 //happy path
                             }
                         }
-                    }
+
+                    }*/
                 }
             }
             catch (Exception e)
